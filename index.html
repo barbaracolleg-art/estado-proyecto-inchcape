@@ -1,0 +1,230 @@
+<title>Integración Inchcape</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+  :root{
+    --bg:#f4f6f8;
+    --surface:#ffffff;
+    --surface-2:#eef1f4;
+    --border:#dde2e8;
+    --ink:#1b2430;
+    --ink-soft:#3d4653;
+    --muted:#69707c;
+    --accent:#2c6e8c;
+    --accent-soft:#e4eef2;
+    --accent-ink:#1c4a5f;
+    --warn:#c98a2e;
+    --warn-soft:#faf1e0;
+    --warn-ink:#7a5417;
+    --bad:#c0453a;
+    --bad-soft:#fbe9e7;
+    --bad-ink:#8a2e26;
+    --good:#2e7d5b;
+    --good-soft:#e5f2ec;
+    --good-ink:#1c5940;
+    --pending:#9aa3af;
+    --pending-soft:#eef0f2;
+    --pending-ink:#5b6472;
+    --shadow: 0 1px 2px rgba(27,36,48,0.06), 0 6px 16px rgba(27,36,48,0.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#12161c; --surface:#181d25; --surface-2:#1f2530; --border:#2a313d;
+      --ink:#eef1f5; --ink-soft:#c7cdd6; --muted:#8b93a1;
+      --accent:#5fa3c2; --accent-soft:#1c3541; --accent-ink:#a9d3e6;
+      --warn:#e0a94f; --warn-soft:#3a2e17; --warn-ink:#f0c988;
+      --bad:#e07267; --bad-soft:#3a201d; --bad-ink:#f2a89e;
+      --good:#5cbb92; --good-soft:#173629; --good-ink:#9adcbe;
+      --pending:#7d8694; --pending-soft:#232a34; --pending-ink:#a7afbb;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 20px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12161c; --surface:#181d25; --surface-2:#1f2530; --border:#2a313d;
+    --ink:#eef1f5; --ink-soft:#c7cdd6; --muted:#8b93a1;
+    --accent:#5fa3c2; --accent-soft:#1c3541; --accent-ink:#a9d3e6;
+    --warn:#e0a94f; --warn-soft:#3a2e17; --warn-ink:#f0c988;
+    --bad:#e07267; --bad-soft:#3a201d; --bad-ink:#f2a89e;
+    --good:#5cbb92; --good-soft:#173629; --good-ink:#9adcbe;
+    --pending:#7d8694; --pending-soft:#232a34; --pending-ink:#a7afbb;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 20px rgba(0,0,0,0.35);
+  }
+
+  *{box-sizing:border-box;}
+  body{ margin:0; background:var(--bg); color:var(--ink); font-family:'IBM Plex Sans', -apple-system, Segoe UI, sans-serif; font-size:14px; line-height:1.5; }
+  .wrap{ max-width:980px; margin:0 auto; padding:26px 24px 44px; }
+
+  .head{ display:flex; justify-content:space-between; align-items:flex-end; gap:16px; margin-bottom:16px; flex-wrap:wrap; }
+  .eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+  h1{ font-family:'Libre Franklin',sans-serif; font-weight:800; font-size:24px; letter-spacing:-0.01em; margin:3px 0 1px; color:var(--ink); text-wrap:balance; }
+  .sub{ color:var(--muted); font-size:12.5px; }
+  .meta-box{ text-align:right; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); }
+  .meta-box b{ color:var(--ink-soft); font-weight:600; }
+
+  .phase{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:13px 16px; margin-bottom:14px; box-shadow:var(--shadow); display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .phase-label{ font-family:'Libre Franklin',sans-serif; font-weight:700; font-size:13px; min-width:210px; }
+  .phase-label span{ display:block; font-family:'IBM Plex Mono',monospace; font-weight:500; font-size:10.5px; color:var(--muted); margin-top:1px; }
+  .track{ flex:1; min-width:160px; height:7px; border-radius:99px; background:var(--surface-2); position:relative; overflow:hidden; }
+  .fill{ position:absolute; inset:0; width:43%; border-radius:99px; background:linear-gradient(90deg,var(--accent),var(--accent-ink)); }
+  .track .today{ position:absolute; left:43%; top:-3px; bottom:-3px; width:2px; background:var(--bad); }
+  .phase-pct{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:14px; color:var(--accent-ink); min-width:40px; text-align:right; }
+
+  .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px; }
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px 14px; box-shadow:var(--shadow); }
+  .card h3{ margin:0 0 4px; font-family:'Libre Franklin',sans-serif; font-size:11px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); font-weight:700; }
+  .card p{ margin:2px 0 0; font-size:12px; color:var(--ink-soft); }
+  .card.risk{ border-color:var(--bad); background:var(--bad-soft); }
+  .card.risk h3{ color:var(--bad-ink); }
+  .card.risk p{ color:var(--bad-ink); }
+  .stat{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:20px; color:var(--ink); }
+  .stat small{ font-size:11px; font-weight:500; color:var(--muted); margin-left:3px; }
+
+  section.block{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:12px; box-shadow:var(--shadow); }
+  section.block h2{ font-family:'Libre Franklin',sans-serif; font-size:13.5px; margin:0 0 8px; color:var(--ink); }
+  section.block p{ margin:0; color:var(--ink-soft); font-size:13px; }
+
+  .grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:6px; }
+  .chip{ display:flex; align-items:flex-start; gap:9px; background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:8px 10px; }
+  .chip .dot{ width:8px; height:8px; border-radius:50%; flex:none; margin-top:5px; }
+  .chip .txt{ min-width:0; }
+  .chip .id{ font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:var(--muted); }
+  .chip .nm{ font-size:12.5px; color:var(--ink); font-weight:600; }
+  .chip .pend{ display:block; font-size:11px; color:var(--muted); margin-top:1px; font-weight:400; }
+  .dot.done{ background:var(--good); } .dot.progress{ background:var(--warn); } .dot.pending{ background:var(--pending); } .dot.bad{ background:var(--bad); }
+  .legend{ display:flex; gap:14px; flex-wrap:wrap; margin-top:9px; font-size:11px; color:var(--muted); }
+  .legend span{ display:inline-flex; align-items:center; gap:5px; }
+  .legend i{ width:7px; height:7px; border-radius:50%; display:inline-block; }
+
+  .road{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:4px; }
+  .stage{ border-top:3px solid var(--pending); padding-top:9px; }
+  .stage.now{ border-top-color:var(--warn); }
+  .stage.done{ border-top-color:var(--good); }
+  .stage.goal{ border-top-color:var(--accent); }
+  .stage .st-when{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); margin-bottom:3px; }
+  .stage .st-title{ font-family:'Libre Franklin',sans-serif; font-weight:700; font-size:12.5px; color:var(--ink); margin-bottom:3px; }
+  .stage .st-note{ font-size:11.5px; color:var(--ink-soft); line-height:1.4; }
+  .st-pill{ display:inline-block; font-size:10px; font-weight:600; padding:1.5px 7px; border-radius:99px; margin-bottom:5px; }
+  .st-pill.now{ background:var(--warn-soft); color:var(--warn-ink); }
+  .st-pill.done{ background:var(--good-soft); color:var(--good-ink); }
+  .st-pill.pending{ background:var(--pending-soft); color:var(--pending-ink); }
+  .st-pill.goal{ background:var(--accent-soft); color:var(--accent-ink); }
+  .callout{ margin-top:11px; background:var(--warn-soft); border:1px solid var(--warn); border-radius:8px; padding:9px 12px; font-size:12px; color:var(--warn-ink); }
+  @media (max-width:640px){ .road{ grid-template-columns:1fr; } }
+
+  .steps{ display:flex; flex-direction:column; gap:6px; }
+  .step{ display:grid; grid-template-columns:78px 1fr; gap:10px; align-items:center; }
+  .step .badge{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:700; text-align:center; padding:3px 0; border-radius:6px; }
+  .badge.U{ background:var(--bad-soft); color:var(--bad-ink); }
+  .badge.I{ background:var(--warn-soft); color:var(--warn-ink); }
+  .step-body{ font-size:13px; color:var(--ink-soft); }
+  .step-body b{ color:var(--ink); font-weight:600; }
+
+  footer{ margin-top:18px; font-size:10.5px; color:var(--muted); text-align:center; }
+
+  @media (max-width:640px){ .cards{ grid-template-columns:1fr; } .grid{ grid-template-columns:1fr; } }
+</style>
+
+<div class="wrap">
+
+  <div class="head">
+    <div>
+      <div class="eyebrow">TECH-1197 · Programa de Integraciones</div>
+      <h1>Integración Americar – Inchcape</h1>
+      <div class="sub">Estado al 26 de agosto de 2026</div>
+    </div>
+    <div class="meta-box">Proyecto: 19/01/26 → 30/11/26<br>26/46 puntos entregados</div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-label">Fase actual: Pruebas Técnicas UAT<span>Ventana 03/08 → 25/09/26</span></div>
+    <div class="track"><div class="fill"></div><div class="today"></div></div>
+    <div class="phase-pct">43%</div>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Diseño</h3>
+      <div class="stat">100%</div>
+      <p>Las 14 integraciones fueron diseñadas y cerradas en marzo.</p>
+    </div>
+    <div class="card">
+      <h3>Pruebas UAT</h3>
+      <div class="stat">1<small>completa</small> · 3<small>en curso</small> · 7<small>sin arrancar</small></div>
+      <p>De 11 integraciones bajo prueba.</p>
+    </div>
+    <div class="card risk">
+      <h3>Riesgo principal</h3>
+      <div class="stat">ID10</div>
+      <p>Service History venció el 27/07, +5 días de atraso.</p>
+    </div>
+  </div>
+
+  <section class="block">
+    <p><b>Situación:</b> el diseño está cerrado y el proyecto entró en pruebas técnicas UAT el 3 de agosto, con cierre de ventana el 25 de septiembre. Del alcance original (Master Data, LMS/CRM, Pricing, Stock, Vehicle Sales Order, Sales Invoice) solo Master Data completó pruebas; el resto sigue en construcción o sin pruebas iniciadas. Además, 4 integraciones de posventa (Recalls, Recall Blocking, Service Booking, Vehicle Files) ya están activas en el tracker pese a que el alcance las ubicaba en una fase posterior — vale confirmar con Inchcape si es una ampliación acordada.</p>
+  </section>
+
+  <section class="block">
+    <h2>Camino al 30 de noviembre</h2>
+    <div class="road">
+      <div class="stage now">
+        <span class="st-pill now">En curso</span>
+        <div class="st-when">03/08 → 25/09/26</div>
+        <div class="st-title">Pruebas Técnicas UAT</div>
+        <div class="st-note">1 de 11 integraciones cerrada. Faltan iniciar pruebas de 7 y destrabar 1 atrasada.</div>
+      </div>
+      <div class="stage pending">
+        <span class="st-pill pending">Pendiente</span>
+        <div class="st-when">Sin fecha definida</div>
+        <div class="st-title">Pruebas Funcionales</div>
+        <div class="st-note">Primer y segundo ciclo. No puede arrancar hasta cerrar la mayoría de las pruebas UAT.</div>
+      </div>
+      <div class="stage pending">
+        <span class="st-pill pending">Pendiente</span>
+        <div class="st-when">Sin fecha definida</div>
+        <div class="st-title">Despliegue PRD</div>
+        <div class="st-note">Gate final de puesta en producción de las integraciones.</div>
+      </div>
+      <div class="stage goal">
+        <span class="st-pill goal">Meta</span>
+        <div class="st-when">30/11/26</div>
+        <div class="st-title">Cierre de proyecto</div>
+        <div class="st-note">Fecha límite del plan Inchcape 2.0 (46 puntos totales).</div>
+      </div>
+    </div>
+    <div class="callout">Quedan ~13 semanas para el cierre. Solo las próximas 4 (ventana UAT) tienen fecha confirmada — Pruebas Funcionales y Despliegue PRD, que deben caber en las 9 semanas siguientes, todavía no tienen fecha planificada en el tracker.</div>
+  </section>
+
+  <section class="block">
+    <h2>Qué falta por integración</h2>
+    <div class="grid">
+      <div class="chip"><span class="dot done"></span><div class="txt"><span class="id">ID3</span> <span class="nm">Master Data → Network</span><span class="pend">Completo — sin pendientes.</span></div></div>
+      <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID8</span> <span class="nm">Pricing</span><span class="pend">En pruebas UAT — cerrar y pasar a Pruebas Funcionales.</span></div></div>
+      <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID1</span> <span class="nm">Network Stock</span><span class="pend">Desarrollo y pruebas corriendo en paralelo — cerrar ambos.</span></div></div>
+      <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID11</span> <span class="nm">Recalls</span><span class="pend">En pruebas UAT — cerrar y pasar a Pruebas Funcionales.</span></div></div>
+      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID6/7</span> <span class="nm">Lead Capture &amp; LMS/CRM</span><span class="pend">Desarrollo cerrado en abril — falta iniciar pruebas UAT.</span></div></div>
+      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID2</span> <span class="nm">Network Sales Invoices</span><span class="pend">Aún en construcción — falta cerrar desarrollo e iniciar pruebas.</span></div></div>
+      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID5</span> <span class="nm">Vehicle Sales Orders</span><span class="pend">Aún en construcción — falta cerrar desarrollo e iniciar pruebas.</span></div></div>
+      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID4</span> <span class="nm">VOR Order Tracking</span><span class="pend">Aún en construcción — falta cerrar desarrollo e iniciar pruebas.</span></div></div>
+      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID12</span> <span class="nm">Recall Blocking</span><span class="pend">Aún en construcción — falta cerrar desarrollo e iniciar pruebas.</span></div></div>
+      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID9</span> <span class="nm">Service Booking</span><span class="pend">Diseñado, sin avance visible de construcción.</span></div></div>
+      <div class="chip"><span class="dot bad"></span><div class="txt"><span class="id">ID10</span> <span class="nm">Vehicle Files / Service History</span><span class="pend">Atrasado desde el 27/07 — destrabar antes de seguir.</span></div></div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--good)"></i>Completo</span>
+      <span><i style="background:var(--warn)"></i>En curso</span>
+      <span><i style="background:var(--pending)"></i>No iniciado</span>
+      <span><i style="background:var(--bad)"></i>Atrasado</span>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Qué hacer esta semana</h2>
+    <div class="steps">
+      <div class="step"><div class="badge U">URGENTE</div><div class="step-body"><b>Destrabar ID10</b> — atrasado hace 5+ días, compromete el cierre de la ventana UAT.</div></div>
+      <div class="step"><div class="badge U">URGENTE</div><div class="step-body"><b>Arrancar pruebas de ID6/7 e ID8</b> — desarrollo cerrado desde abril, pruebas aún sin iniciar.</div></div>
+      <div class="step"><div class="badge I">IMPORTANTE</div><div class="step-body"><b>Confirmar alcance de posventa con Inchcape</b> — ID9-12 ya están activos pero no estaban en el alcance documentado.</div></div>
+    </div>
+  </section>
+
+  <footer>Fuente: tracker TECH-1197 (Inchcape 2.0) · Estado generado el 26/08/2026</footer>
+</div>
