@@ -1,0 +1,432 @@
+<title>Integración Inchcape (Detalle)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+  :root{
+    --bg:#f4f6f8;
+    --surface:#ffffff;
+    --surface-2:#eef1f4;
+    --border:#dde2e8;
+    --ink:#1b2430;
+    --ink-soft:#3d4653;
+    --muted:#69707c;
+    --accent:#2c6e8c;
+    --accent-soft:#e4eef2;
+    --accent-ink:#1c4a5f;
+    --warn:#c98a2e;
+    --warn-soft:#faf1e0;
+    --warn-ink:#7a5417;
+    --bad:#c0453a;
+    --bad-soft:#fbe9e7;
+    --bad-ink:#8a2e26;
+    --good:#2e7d5b;
+    --good-soft:#e5f2ec;
+    --good-ink:#1c5940;
+    --pending:#9aa3af;
+    --pending-soft:#eef0f2;
+    --pending-ink:#5b6472;
+    --shadow: 0 1px 2px rgba(27,36,48,0.06), 0 6px 16px rgba(27,36,48,0.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#12161c;
+      --surface:#181d25;
+      --surface-2:#1f2530;
+      --border:#2a313d;
+      --ink:#eef1f5;
+      --ink-soft:#c7cdd6;
+      --muted:#8b93a1;
+      --accent:#5fa3c2;
+      --accent-soft:#1c3541;
+      --accent-ink:#a9d3e6;
+      --warn:#e0a94f;
+      --warn-soft:#3a2e17;
+      --warn-ink:#f0c988;
+      --bad:#e07267;
+      --bad-soft:#3a201d;
+      --bad-ink:#f2a89e;
+      --good:#5cbb92;
+      --good-soft:#173629;
+      --good-ink:#9adcbe;
+      --pending:#7d8694;
+      --pending-soft:#232a34;
+      --pending-ink:#a7afbb;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 20px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12161c;
+    --surface:#181d25;
+    --surface-2:#1f2530;
+    --border:#2a313d;
+    --ink:#eef1f5;
+    --ink-soft:#c7cdd6;
+    --muted:#8b93a1;
+    --accent:#5fa3c2;
+    --accent-soft:#1c3541;
+    --accent-ink:#a9d3e6;
+    --warn:#e0a94f;
+    --warn-soft:#3a2e17;
+    --warn-ink:#f0c988;
+    --bad:#e07267;
+    --bad-soft:#3a201d;
+    --bad-ink:#f2a89e;
+    --good:#5cbb92;
+    --good-soft:#173629;
+    --good-ink:#9adcbe;
+    --pending:#7d8694;
+    --pending-soft:#232a34;
+    --pending-ink:#a7afbb;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 20px rgba(0,0,0,0.35);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', -apple-system, Segoe UI, sans-serif;
+    font-size:14px;
+    line-height:1.5;
+  }
+  .wrap{ max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* header */
+  .head{ display:flex; justify-content:space-between; align-items:flex-end; gap:20px; margin-bottom:22px; flex-wrap:wrap; }
+  .eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+  h1{ font-family:'Libre Franklin',sans-serif; font-weight:800; font-size:26px; letter-spacing:-0.01em; margin:4px 0 2px; color:var(--ink); text-wrap:balance; }
+  .sub{ color:var(--muted); font-size:13px; }
+  .meta-box{ text-align:right; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted); }
+  .meta-box b{ color:var(--ink-soft); font-weight:600; }
+
+  /* phase progress */
+  .phase{
+    background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:16px 18px; margin-bottom:20px; box-shadow:var(--shadow);
+    display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+  }
+  .phase-label{ font-family:'Libre Franklin',sans-serif; font-weight:700; font-size:13.5px; min-width:230px; }
+  .phase-label span{ display:block; font-family:'IBM Plex Mono',monospace; font-weight:500; font-size:11px; color:var(--muted); margin-top:2px; }
+  .track{ flex:1; min-width:200px; height:8px; border-radius:99px; background:var(--surface-2); position:relative; overflow:hidden; }
+  .fill{ position:absolute; inset:0; width:43%; border-radius:99px; background:linear-gradient(90deg,var(--accent),var(--accent-ink)); }
+  .track .today{ position:absolute; left:43%; top:-3px; bottom:-3px; width:2px; background:var(--bad); }
+  .phase-pct{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:15px; color:var(--accent-ink); min-width:48px; text-align:right; }
+
+  /* tabs */
+  .tabs{ display:flex; gap:4px; border-bottom:1px solid var(--border); margin-bottom:18px; }
+  .tab{
+    font-family:'Libre Franklin',sans-serif; font-weight:600; font-size:13px; color:var(--muted);
+    background:none; border:none; padding:9px 14px; cursor:pointer; border-bottom:2px solid transparent;
+    margin-bottom:-1px; transition:color .15s ease, border-color .15s ease;
+  }
+  .tab:hover{ color:var(--ink-soft); }
+  .tab.active{ color:var(--accent-ink); border-bottom-color:var(--accent); }
+  .panel{ display:none; }
+  .panel.active{ display:block; animation:fade .18s ease; }
+  @keyframes fade{ from{opacity:0; transform:translateY(2px);} to{opacity:1; transform:none;} }
+
+  /* summary cards */
+  .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px 16px; box-shadow:var(--shadow); }
+  .card h3{ margin:0 0 6px; font-family:'Libre Franklin',sans-serif; font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); font-weight:700; }
+  .card p{ margin:0; font-size:13px; color:var(--ink-soft); }
+  .card.risk{ border-color:var(--bad); background:var(--bad-soft); }
+  .card.risk h3{ color:var(--bad-ink); }
+  .card.risk p{ color:var(--bad-ink); }
+  .stat{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:22px; color:var(--ink); }
+  .stat small{ font-size:12px; font-weight:500; color:var(--muted); margin-left:4px; }
+
+  section.block{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin-bottom:16px; box-shadow:var(--shadow); }
+  section.block h2{ font-family:'Libre Franklin',sans-serif; font-size:15px; margin:0 0 10px; color:var(--ink); }
+  section.block p{ margin:0 0 8px; color:var(--ink-soft); }
+  section.block ul{ margin:6px 0 0; padding-left:18px; color:var(--ink-soft); }
+  section.block li{ margin-bottom:5px; }
+
+  /* table */
+  .tablewrap{ overflow-x:auto; border:1px solid var(--border); border-radius:10px; box-shadow:var(--shadow); background:var(--surface); }
+  table{ border-collapse:collapse; width:100%; min-width:880px; font-size:12.8px; }
+  thead th{
+    text-align:left; font-family:'Libre Franklin',sans-serif; font-weight:700; font-size:11px;
+    text-transform:uppercase; letter-spacing:.04em; color:var(--muted);
+    background:var(--surface-2); padding:9px 12px; border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  tbody td{ padding:8px 12px; border-bottom:1px solid var(--border); vertical-align:middle; color:var(--ink-soft); }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody tr:hover{ background:var(--surface-2); }
+  .id{ font-family:'IBM Plex Mono',monospace; font-weight:600; color:var(--accent-ink); white-space:nowrap; }
+  .name{ color:var(--ink); font-weight:500; }
+  .name small{ display:block; color:var(--muted); font-weight:400; font-size:11px; margin-top:1px; }
+
+  .pill{ display:inline-flex; align-items:center; gap:5px; padding:2.5px 8px; border-radius:99px; font-size:11px; font-weight:600; white-space:nowrap; font-family:'IBM Plex Sans',sans-serif; }
+  .pill::before{ content:''; width:6px; height:6px; border-radius:50%; flex:none; }
+  .pill.done{ background:var(--good-soft); color:var(--good-ink); } .pill.done::before{ background:var(--good); }
+  .pill.progress{ background:var(--warn-soft); color:var(--warn-ink); } .pill.progress::before{ background:var(--warn); }
+  .pill.pending{ background:var(--pending-soft); color:var(--pending-ink); } .pill.pending::before{ background:var(--pending); }
+  .pill.bad{ background:var(--bad-soft); color:var(--bad-ink); } .pill.bad::before{ background:var(--bad); }
+
+  .prio{ font-size:11px; font-weight:600; }
+  .prio.alta{ color:var(--bad-ink); } .prio.normal{ color:var(--accent-ink); } .prio.baja{ color:var(--muted); }
+  .tag{ font-family:'IBM Plex Mono',monospace; font-size:10px; background:var(--accent-soft); color:var(--accent-ink); padding:1px 6px; border-radius:5px; }
+  .check{ color:var(--good); font-weight:700; }
+
+  .note{ font-size:12px; color:var(--muted); }
+
+  /* next steps */
+  .steps{ display:flex; flex-direction:column; gap:8px; }
+  .step{ display:grid; grid-template-columns:64px 1fr; gap:12px; align-items:start; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:11px 14px; box-shadow:var(--shadow); }
+  .step .badge{ font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; text-align:center; padding:4px 0; border-radius:6px; }
+  .badge.U{ background:var(--bad-soft); color:var(--bad-ink); }
+  .badge.I{ background:var(--warn-soft); color:var(--warn-ink); }
+  .badge.D{ background:var(--accent-soft); color:var(--accent-ink); }
+  .badge.P{ background:var(--pending-soft); color:var(--pending-ink); }
+  .step-body b{ display:block; color:var(--ink); font-size:13px; margin-bottom:2px; }
+  .step-body span{ color:var(--muted); font-size:12.5px; }
+
+  .legend{ display:flex; gap:14px; flex-wrap:wrap; margin:10px 0 0; font-size:11.5px; color:var(--muted); }
+  .legend span{ display:inline-flex; align-items:center; gap:5px; }
+  .legend i{ width:7px; height:7px; border-radius:50%; display:inline-block; }
+
+  footer{ margin-top:26px; font-size:11px; color:var(--muted); text-align:center; }
+</style>
+
+<div class="wrap">
+
+  <div class="head">
+    <div>
+      <div class="eyebrow">TECH-1197 · Programa de Integraciones</div>
+      <h1>Integración Americar – Inchcape</h1>
+      <div class="sub">Estado de proyecto al 26 de agosto de 2026 · versión detallada</div>
+    </div>
+    <div class="meta-box">
+      Inicio proyecto <b>19/01/26</b> · Cierre plan <b>30/11/26</b><br>
+      46 puntos totales · <b>26 en Diseño</b> + <b>20 en Construcción/Pruebas</b>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-label">Fase actual: Pruebas Técnicas UAT
+      <span>Ventana 03/08/26 → 25/09/26</span>
+    </div>
+    <div class="track"><div class="fill"></div><div class="today"></div></div>
+    <div class="phase-pct">43%</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="resumen">Resumen</button>
+    <button class="tab" data-tab="detalle">Detalle por integración</button>
+    <button class="tab" data-tab="pasos">Próximos pasos</button>
+  </div>
+
+  <!-- RESUMEN -->
+  <div class="panel active" id="resumen">
+    <div class="cards">
+      <div class="card">
+        <h3>Diseño &amp; arquitectura</h3>
+        <div class="stat">100%</div>
+        <p>Las 14 integraciones definidas fueron diseñadas y cerradas entre el 19/01 y el 19/03/26 (26/26 puntos).</p>
+      </div>
+      <div class="card">
+        <h3>Integraciones en pruebas UAT</h3>
+        <div class="stat">3<small>/ 11 en curso</small></div>
+        <p>Master Data completó pruebas. Pricing, Network Stock y Recalls están corriendo pruebas en paralelo al desarrollo.</p>
+      </div>
+      <div class="card risk">
+        <h3>Riesgo principal</h3>
+        <div class="stat">ID10</div>
+        <p>Vehicle Files / Service History venció el 27/07 y sigue sin cerrar — hoy 5+ días atrasado dentro de una ventana de pruebas que cierra el 25/09.</p>
+      </div>
+    </div>
+
+    <section class="block">
+      <h2>Situación</h2>
+      <p>El proyecto busca implementar las integraciones entre Americar e Inchcape para soportar procesos comerciales y operacionales: intercambio de información entre CRM, LMS, stock, pricing, órdenes de venta y datos maestros. La primera etapa prioriza <b>Master Data, LMS/CRM, Pricing, Stock, Vehicle Sales Order y Sales Invoice</b>; el resumen del proyecto ubica postventa en una fase posterior.</p>
+      <p>El diseño de solución (A&amp;D) está <b>100% cerrado</b> desde marzo. El proyecto pasó a construcción entre marzo y julio, y desde el <b>3 de agosto</b> está en la fase de <b>Pruebas Técnicas UAT</b> — la ventana actual, que cierra el 25/09. De los 11 IDs bajo prueba, 1 está completo, 3 en curso y 7 aún sin iniciar pruebas, más 1 atrasado sobre su propia fecha de cierre.</p>
+    </section>
+
+    <section class="block">
+      <h2>Observación — alcance vs. tracker</h2>
+      <p>El resumen ejecutivo indica que <b>postventa quedó para una fase posterior</b>, pero el tracker de pruebas técnicas ya incluye como ítems activos: <span class="tag">ID9 Service Booking</span> <span class="tag">ID10 Vehicle Files/Service History</span> <span class="tag">ID11 Recalls</span> <span class="tag">ID12 Recall Blocking</span> — los cuatro son funcionalidad de posventa. Vale confirmar con Inchcape si esto es una ampliación de alcance ya acordada o un desfase entre lo documentado y lo que realmente se está construyendo, para evitar sorpresas de cobertura al cierre.</p>
+    </section>
+  </div>
+
+  <!-- DETALLE -->
+  <div class="panel" id="detalle">
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th><th>Integración</th><th>Prioridad</th><th>Diseño</th><th>Construcción</th><th>Pruebas UAT</th><th>Nota</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="id">ID3</td>
+            <td class="name">Master Data → Network</td>
+            <td class="prio alta">Alta</td>
+            <td class="check">✓</td>
+            <td><span class="pill done">Completo</span></td>
+            <td><span class="pill done">Completo</span></td>
+            <td class="note">Única integración con ciclo cerrado de punta a punta.</td>
+          </tr>
+          <tr>
+            <td class="id">ID6 / ID7</td>
+            <td class="name">Lead Capture (DXP/SF→3PD) &amp; LMS/CRM<small>Alcance original</small></td>
+            <td class="prio alta">Alta</td>
+            <td class="check">✓</td>
+            <td><span class="pill done">Completo</span></td>
+            <td><span class="pill pending">No iniciado</span></td>
+            <td class="note">Desarrollo cerrado el 05/04; pruebas sin arrancar hace 4 meses.</td>
+          </tr>
+          <tr>
+            <td class="id">ID8</td>
+            <td class="name">Pricing (SAP→3PD) + Catalog/Price Sync<small>Alcance original</small></td>
+            <td class="prio alta">Alta</td>
+            <td class="check">✓</td>
+            <td><span class="pill done">Completo</span></td>
+            <td><span class="pill progress">En curso</span></td>
+            <td class="note">Desarrollo cerrado el 24/04.</td>
+          </tr>
+          <tr>
+            <td class="id">ID1</td>
+            <td class="name">Network Stock (Vehicles &amp; Parts)<small>Alcance original</small></td>
+            <td class="prio alta">Alta</td>
+            <td class="check">✓</td>
+            <td><span class="pill progress">En curso</span></td>
+            <td><span class="pill progress">En curso</span></td>
+            <td class="note">Único ID con desarrollo y pruebas corriendo en paralelo.</td>
+          </tr>
+          <tr>
+            <td class="id">ID2</td>
+            <td class="name">Network Sales Invoices (3PD DMS→DAP)<small>Alcance original</small></td>
+            <td class="prio normal">Normal</td>
+            <td class="check">✓</td>
+            <td><span class="pill progress">En curso</span></td>
+            <td><span class="pill pending">No iniciado</span></td>
+            <td class="note"></td>
+          </tr>
+          <tr>
+            <td class="id">ID5</td>
+            <td class="name">Vehicle Sales Orders (3PD DMS→DAP)<small>Alcance original</small></td>
+            <td class="prio normal">Normal</td>
+            <td class="check">✓</td>
+            <td><span class="pill progress">En curso</span></td>
+            <td><span class="pill pending">No iniciado</span></td>
+            <td class="note"></td>
+          </tr>
+          <tr>
+            <td class="id">ID4</td>
+            <td class="name">VOR Order Tracking (SAP Dealer Portal)</td>
+            <td class="prio baja">Baja</td>
+            <td class="check">✓</td>
+            <td><span class="pill progress">En curso</span></td>
+            <td><span class="pill pending">No iniciado</span></td>
+            <td class="note"></td>
+          </tr>
+          <tr>
+            <td class="id">ID11</td>
+            <td class="name">Recalls (SAP WTY→3PD DMS)<small>Posventa</small></td>
+            <td class="prio baja">Baja</td>
+            <td class="check">✓</td>
+            <td><span class="pill progress">En curso</span></td>
+            <td><span class="pill progress">En curso</span></td>
+            <td class="note"></td>
+          </tr>
+          <tr>
+            <td class="id">ID12</td>
+            <td class="name">Recall Blocking (SAP/WTY→DMS)<small>Posventa</small></td>
+            <td class="prio baja">Baja</td>
+            <td class="check">✓</td>
+            <td><span class="pill progress">En curso</span></td>
+            <td><span class="pill pending">No iniciado</span></td>
+            <td class="note"></td>
+          </tr>
+          <tr>
+            <td class="id">ID10</td>
+            <td class="name">Vehicle Files / Service History (3PD⇄Distribuidor)<small>Posventa</small></td>
+            <td class="prio baja">Baja</td>
+            <td class="check">✓</td>
+            <td><span class="pill bad">Atrasado</span></td>
+            <td><span class="pill bad">Bloqueado</span></td>
+            <td class="note">Vencía el 27/07 — 5+ días de atraso a la fecha.</td>
+          </tr>
+          <tr>
+            <td class="id">ID9</td>
+            <td class="name">Service Booking (DXP Booking⇄3PD DMS)<small>Posventa</small></td>
+            <td class="prio baja">—</td>
+            <td class="check">✓</td>
+            <td class="note">Diseñado, sin evidencia de desarrollo en curso.</td>
+            <td><span class="pill pending">No iniciado</span></td>
+            <td class="note"></td>
+          </tr>
+          <tr>
+            <td class="id">—</td>
+            <td class="name">Pruebas Funcionales (Primer y Segundo Ciclo)</td>
+            <td class="prio">—</td>
+            <td class="check">—</td>
+            <td class="note">—</td>
+            <td><span class="pill pending">No iniciado</span></td>
+            <td class="note">Depende del cierre de las pruebas por integración.</td>
+          </tr>
+          <tr>
+            <td class="id">—</td>
+            <td class="name">Despliegue PRD</td>
+            <td class="prio">—</td>
+            <td class="check">—</td>
+            <td class="note">—</td>
+            <td><span class="pill pending">No iniciado</span></td>
+            <td class="note">Gate final del programa.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--good)"></i>Completo</span>
+      <span><i style="background:var(--warn)"></i>En curso</span>
+      <span><i style="background:var(--pending)"></i>No iniciado</span>
+      <span><i style="background:var(--bad)"></i>Atrasado / bloqueado</span>
+    </div>
+  </div>
+
+  <!-- PASOS -->
+  <div class="panel" id="pasos">
+    <div class="steps">
+      <div class="step">
+        <div class="badge U">URGENTE</div>
+        <div class="step-body"><b>Destrabar ID10 — Vehicle Files / Service History</b><span>Venció el 27/07 y lleva más de 5 días de atraso; es el único ID bloqueado y compromete el cierre de la ventana UAT del 25/09.</span></div>
+      </div>
+      <div class="step">
+        <div class="badge U">URGENTE</div>
+        <div class="step-body"><b>Arrancar pruebas UAT de ID6/ID7 (Lead Capture &amp; LMS/CRM) e ID8 (Pricing)</b><span>Desarrollo cerrado desde abril sin que las pruebas hayan comenzado — son parte del alcance original y de prioridad Alta.</span></div>
+      </div>
+      <div class="step">
+        <div class="badge I">IMPORTANTE</div>
+        <div class="step-body"><b>Confirmar alcance de posventa con Inchcape</b><span>ID9, ID10, ID11 e ID12 son funcionalidad de posventa y ya están activos en el tracker, aunque el resumen ejecutivo la ubica en una fase posterior. Alinear expectativas de cobertura antes del cierre.</span></div>
+      </div>
+      <div class="step">
+        <div class="badge I">IMPORTANTE</div>
+        <div class="step-body"><b>Secuenciar el arranque de pruebas de ID2, ID5, ID4, ID12 e ID9</b><span>Hoy no tienen fecha de inicio de pruebas; a un mes del cierre de ventana (25/09) necesitan un plan de arranque esta semana.</span></div>
+      </div>
+      <div class="step">
+        <div class="badge D">DELEGABLE</div>
+        <div class="step-body"><b>Checkpoint semanal de avance por ID con el responsable técnico (RA)</b><span>Seguimiento operativo de sprints y puntos; reportar solo desvíos al comité.</span></div>
+      </div>
+      <div class="step">
+        <div class="badge P">POSTERGABLE</div>
+        <div class="step-body"><b>Planificación detallada de Pruebas Funcionales y Despliegue PRD</b><span>Ambos dependen de tener la mayoría de los IDs con pruebas de integración cerradas; retomar cuando ≥80% de los IDs estén en curso o completos.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Fuente: tracker TECH-1197 (Inchcape 2.0) y resumen ejecutivo del proyecto · Estado generado el 26/08/2026</footer>
+</div>
+
+<script>
+  document.querySelectorAll('.tab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(b){ b.classList.remove('active'); });
+      document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+</script>
