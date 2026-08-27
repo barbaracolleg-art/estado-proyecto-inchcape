@@ -61,13 +61,23 @@
   .meta-box{ text-align:right; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); }
   .meta-box b{ color:var(--ink-soft); font-weight:600; }
 
-  .phase{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:13px 16px; margin-bottom:14px; box-shadow:var(--shadow); display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .phase{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:13px 16px; margin-bottom:14px; box-shadow:var(--shadow); }
+  .phase-row{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .phase-row + .phase-row{ margin-top:8px; }
   .phase-label{ font-family:'Libre Franklin',sans-serif; font-weight:700; font-size:13px; min-width:210px; }
   .phase-label span{ display:block; font-family:'IBM Plex Mono',monospace; font-weight:500; font-size:10.5px; color:var(--muted); margin-top:1px; }
   .track{ flex:1; min-width:160px; height:7px; border-radius:99px; background:var(--surface-2); position:relative; overflow:hidden; }
   .fill{ position:absolute; inset:0; width:43%; border-radius:99px; background:linear-gradient(90deg,var(--accent),var(--accent-ink)); }
+  .fill.cases{ background:linear-gradient(90deg,var(--good),var(--good-ink)); }
   .track .today{ position:absolute; left:43%; top:-3px; bottom:-3px; width:2px; background:var(--bad); }
   .phase-pct{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:14px; color:var(--accent-ink); min-width:40px; text-align:right; }
+  .phase-pct.cases{ color:var(--good-ink); }
+
+  .stackbar{ display:flex; height:16px; border-radius:6px; overflow:hidden; margin:8px 0 6px; border:1px solid var(--border); }
+  .stackbar div{ height:100%; }
+  .stackbar .done{ background:var(--good); } .stackbar .progress{ background:var(--warn); } .stackbar .pending{ background:var(--pending); } .stackbar .bad{ background:var(--bad); }
+  .stackbar-legend{ display:flex; gap:12px; flex-wrap:wrap; font-size:11px; color:var(--muted); }
+  .stackbar-legend b{ color:var(--ink-soft); font-weight:600; }
 
   .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px; }
   .card{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px 14px; box-shadow:var(--shadow); }
@@ -130,15 +140,22 @@
     <div>
       <div class="eyebrow">TECH-1197 · Programa de Integraciones</div>
       <h1>Integración Americar – Inchcape</h1>
-      <div class="sub">Estado al 26 de agosto de 2026</div>
+      <div class="sub">Estado al 27 de agosto de 2026</div>
     </div>
     <div class="meta-box">Proyecto: 19/01/26 → 30/11/26<br>26/46 puntos entregados</div>
   </div>
 
   <div class="phase">
-    <div class="phase-label">Fase actual: Pruebas Técnicas UAT<span>Ventana 03/08 → 25/09/26</span></div>
-    <div class="track"><div class="fill"></div><div class="today"></div></div>
-    <div class="phase-pct">43%</div>
+    <div class="phase-row">
+      <div class="phase-label">Tiempo transcurrido<span>Ventana UAT 03/08 → 10/09/26</span></div>
+      <div class="track"><div class="fill" style="width:63%"></div></div>
+      <div class="phase-pct">63%</div>
+    </div>
+    <div class="phase-row">
+      <div class="phase-label">Casos de prueba cerrados<span>49 de 190 casos totales</span></div>
+      <div class="track"><div class="fill cases" style="width:25.8%"></div></div>
+      <div class="phase-pct cases">25.8%</div>
+    </div>
   </div>
 
   <div class="cards">
@@ -148,19 +165,19 @@
       <p>Las 14 integraciones fueron diseñadas y cerradas en marzo.</p>
     </div>
     <div class="card">
-      <h3>Pruebas UAT</h3>
-      <div class="stat">1<small>completa</small> · 3<small>en curso</small> · 7<small>sin arrancar</small></div>
-      <p>De 11 integraciones bajo prueba.</p>
+      <h3>Casos UAT (AMERICAR)</h3>
+      <div class="stat">49<small>/ 190 finalizados</small></div>
+      <p>35 en curso · 104 sin iniciar · 2 fallidos.</p>
     </div>
     <div class="card risk">
       <h3>Riesgo principal</h3>
-      <div class="stat">ID10</div>
-      <p>Service History venció el 27/07, +5 días de atraso.</p>
+      <div class="stat">-76</div>
+      <p>Brecha vs. plan Inchcape (125 esperados, 49 reales). Plan de recuperación en curso, meta 10/09.</p>
     </div>
   </div>
 
   <section class="block">
-    <p><b>Situación:</b> el diseño está cerrado y el proyecto entró en pruebas técnicas UAT el 3 de agosto, con cierre de ventana el 25 de septiembre. Del alcance original (Master Data, LMS/CRM, Pricing, Stock, Vehicle Sales Order, Sales Invoice) solo Master Data completó pruebas; el resto sigue en construcción o sin pruebas iniciadas. Además, 4 integraciones de posventa (Recalls, Recall Blocking, Service Booking, Vehicle Files) ya están activas en el tracker pese a que el alcance las ubicaba en una fase posterior — vale confirmar con Inchcape si es una ampliación acordada.</p>
+    <p><b>Situación:</b> el diseño está cerrado. El proyecto está en pruebas técnicas UAT desde el 3 de agosto; Inchcape fijó el 10 de septiembre como fecha de cierre de esta fase. Al 27/08 llevamos <b>49 de 190 casos finalizados (25,8%)</b>, con una brecha de <b>-76 casos</b> respecto al plan acumulado (125) — así lo confirmó Inchcape (Melanie Uesseler) en su correo del 27/08, donde piden un plan de recuperación para sostener la fecha del 10/09. Del alcance original (Master Data, LMS/CRM, Pricing, Stock, Vehicle Sales Order, Sales Invoice), Master Data (ID3) está prácticamente cerrado y Pricing (ID8) casi completo, pero Network Sales Invoices (ID2), Vehicle Sales Orders (ID5) y Lead Capture/LMS-CRM (ID6/7) siguen en 0% de avance. Además, 4 integraciones de posventa (Recalls, Recall Blocking, Service Booking, Vehicle Files) ya están activas en el tracker pese a que el alcance las ubicaba en una fase posterior — vale confirmar con Inchcape si es una ampliación acordada.</p>
   </section>
 
   <section class="block">
@@ -168,9 +185,9 @@
     <div class="road">
       <div class="stage now">
         <span class="st-pill now">En curso</span>
-        <div class="st-when">03/08 → 25/09/26</div>
+        <div class="st-when">03/08 → 10/09/26</div>
         <div class="st-title">Pruebas Técnicas UAT</div>
-        <div class="st-note">1 de 11 integraciones cerrada. Faltan iniciar pruebas de 7 y destrabar 1 atrasada.</div>
+        <div class="st-note">49/190 casos cerrados (25,8%). Brecha de -76 casos vs. plan; Inchcape exige plan de recuperación para sostener el 10/09.</div>
       </div>
       <div class="stage pending">
         <span class="st-pill pending">Pendiente</span>
@@ -191,40 +208,42 @@
         <div class="st-note">Fecha límite del plan Inchcape 2.0 (46 puntos totales).</div>
       </div>
     </div>
-    <div class="callout">Quedan ~13 semanas para el cierre. Solo las próximas 4 (ventana UAT) tienen fecha confirmada — Pruebas Funcionales y Despliegue PRD, que deben caber en las 9 semanas siguientes, todavía no tienen fecha planificada en el tracker.</div>
+    <div class="callout">Quedan ~13 semanas para el cierre del 30/11. Pruebas UAT ahora cierra el 10/09 (no el 25/09) por exigencia de Inchcape — Pruebas Funcionales y Despliegue PRD, que deben caber en las ~11 semanas siguientes, todavía no tienen fecha planificada en el tracker.</div>
   </section>
 
   <section class="block">
-    <h2>Qué falta por integración</h2>
+    <h2>Qué falta por integración <span style="font-weight:400;color:var(--muted);font-size:11.5px;">— casos UAT reportados por Inchcape al 27/08</span></h2>
     <div class="grid">
-      <div class="chip"><span class="dot done"></span><div class="txt"><span class="id">ID3</span> <span class="nm">Master Data → Network</span><span class="pend">Completo — sin pendientes.</span></div></div>
-      <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID8</span> <span class="nm">Pricing</span><span class="pend">En pruebas UAT — cerrar y pasar a Pruebas Funcionales.</span></div></div>
-      <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID1</span> <span class="nm">Network Stock</span><span class="pend">Desarrollo y pruebas corriendo en paralelo — cerrar ambos.</span></div></div>
-      <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID11</span> <span class="nm">Recalls</span><span class="pend">En pruebas UAT — cerrar y pasar a Pruebas Funcionales.</span></div></div>
-      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID6/7</span> <span class="nm">Lead Capture &amp; LMS/CRM</span><span class="pend">Desarrollo cerrado en abril — falta iniciar pruebas UAT.</span></div></div>
-      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID2</span> <span class="nm">Network Sales Invoices</span><span class="pend">Aún en construcción — falta cerrar desarrollo e iniciar pruebas.</span></div></div>
-      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID5</span> <span class="nm">Vehicle Sales Orders</span><span class="pend">Aún en construcción — falta cerrar desarrollo e iniciar pruebas.</span></div></div>
-      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID4</span> <span class="nm">VOR Order Tracking</span><span class="pend">Aún en construcción — falta cerrar desarrollo e iniciar pruebas.</span></div></div>
-      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID12</span> <span class="nm">Recall Blocking</span><span class="pend">Aún en construcción — falta cerrar desarrollo e iniciar pruebas.</span></div></div>
-      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID9</span> <span class="nm">Service Booking</span><span class="pend">Diseñado, sin avance visible de construcción.</span></div></div>
-      <div class="chip"><span class="dot bad"></span><div class="txt"><span class="id">ID10</span> <span class="nm">Vehicle Files / Service History</span><span class="pend">Atrasado desde el 27/07 — destrabar antes de seguir.</span></div></div>
+      <div class="chip"><span class="dot done"></span><div class="txt"><span class="id">ID3</span> <span class="nm">Master Data → Network</span><span class="pend">31/32 casos finalizados — cerrado, según equipo (1 caso pendiente de cierre formal).</span></div></div>
+      <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID8</span> <span class="nm">Pricing</span><span class="pend">18/20 finalizados, <b style="color:var(--bad-ink)">2 fallidos</b> (ID8.2c) — vence mañana 28/08.</span></div></div>
+      <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID1</span> <span class="nm">Network Stock</span><span class="pend">0/50 finalizados, 25 en curso / 25 sin iniciar — vence martes 02/09.</span></div></div>
+      <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID11</span> <span class="nm">Recalls</span><span class="pend">9/12 casos en curso, 3 sin iniciar — vence martes 02/09.</span></div></div>
+      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID10</span> <span class="nm">Vehicle Files / Service History</span><span class="pend">25 casos, todos sin iniciar — arranca martes 01/09 según planificación Inchcape.</span></div></div>
+      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID6/7</span> <span class="nm">Lead Capture &amp; LMS/CRM</span><span class="pend">28 casos de ID7 sin iniciar; ID6 aún sin casos UAT registrados.</span></div></div>
+      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID2</span> <span class="nm">Network Sales Invoices</span><span class="pend">11 casos, todos sin iniciar — sin fecha de arranque.</span></div></div>
+      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID5</span> <span class="nm">Vehicle Sales Orders</span><span class="pend">12 casos, todos sin iniciar — sin fecha de arranque.</span></div></div>
+      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID4</span> <span class="nm">VOR Order Tracking</span><span class="pend">Sin casos UAT registrados en el tracker aún.</span></div></div>
+      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID12</span> <span class="nm">Recall Blocking</span><span class="pend">Sin casos UAT registrados en el tracker aún.</span></div></div>
+      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID9</span> <span class="nm">Service Booking</span><span class="pend">Sin casos UAT registrados en el tracker aún.</span></div></div>
     </div>
-    <div class="legend">
-      <span><i style="background:var(--good)"></i>Completo</span>
-      <span><i style="background:var(--warn)"></i>En curso</span>
-      <span><i style="background:var(--pending)"></i>No iniciado</span>
-      <span><i style="background:var(--bad)"></i>Atrasado</span>
+    <div class="stackbar">
+      <div class="done" style="width:25.8%"></div><div class="progress" style="width:18.4%"></div><div class="pending" style="width:54.7%"></div><div class="bad" style="width:1.1%"></div>
+    </div>
+    <div class="stackbar-legend">
+      <span><b>49</b> finalizados</span><span><b>35</b> en curso</span><span><b>104</b> sin iniciar</span><span><b>2</b> fallidos</span><span>— 190 casos totales AMERICAR</span>
     </div>
   </section>
 
   <section class="block">
     <h2>Qué hacer esta semana</h2>
     <div class="steps">
-      <div class="step"><div class="badge U">URGENTE</div><div class="step-body"><b>Destrabar ID10</b> — atrasado hace 5+ días, compromete el cierre de la ventana UAT.</div></div>
-      <div class="step"><div class="badge U">URGENTE</div><div class="step-body"><b>Arrancar pruebas de ID6/7 e ID8</b> — desarrollo cerrado desde abril, pruebas aún sin iniciar.</div></div>
-      <div class="step"><div class="badge I">IMPORTANTE</div><div class="step-body"><b>Confirmar alcance de posventa con Inchcape</b> — ID9-12 ya están activos pero no estaban en el alcance documentado.</div></div>
+      <div class="step"><div class="badge U">URGENTE</div><div class="step-body"><b>Resolver los 2 casos fallidos de ID8 (Pricing)</b> — ID8.2c, vencen mañana 28/08.</div></div>
+      <div class="step"><div class="badge U">URGENTE</div><div class="step-body"><b>Cerrar el plan de recuperación de la brecha de 76 casos</b> — compromiso pedido por Inchcape para sostener el cierre del 10/09.</div></div>
+      <div class="step"><div class="badge U">URGENTE</div><div class="step-body"><b>Confirmar arranque de ID10</b> el martes 01/09, según planificación de Inchcape (25 casos sin iniciar).</div></div>
+      <div class="step"><div class="badge I">IMPORTANTE</div><div class="step-body"><b>Asegurar cierre de ID1 e ID11</b> el martes 02/09 — ambos con la mayoría de sus casos aún en curso.</div></div>
+      <div class="step"><div class="badge I">IMPORTANTE</div><div class="step-body"><b>Arrancar pruebas de ID2, ID5 y ID6/7</b> — 51 casos en 0% de avance y sin fecha de inicio, a menos de 2 semanas del cierre del 10/09.</div></div>
     </div>
   </section>
 
-  <footer>Fuente: tracker TECH-1197 (Inchcape 2.0) · Estado generado el 26/08/2026</footer>
+  <footer>Fuente: tracker TECH-1197 (Inchcape 2.0) y correo de seguimiento Inchcape (M. Uesseler, 27/08/26) · Estado generado el 27/08/2026</footer>
 </div>
