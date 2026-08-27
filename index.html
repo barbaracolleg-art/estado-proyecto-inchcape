@@ -122,6 +122,7 @@
   .bar.b-progress{ background:var(--warn); }
   .bar.b-risk{ background:repeating-linear-gradient(135deg, var(--bad) 0 6px, var(--bad-soft) 6px 12px); border:1px solid var(--bad); }
   .bar.b-est{ background:repeating-linear-gradient(135deg, var(--warn) 0 6px, var(--warn-soft) 6px 12px); border:1px solid var(--warn); }
+  .bar.b-late{ background:var(--bad); }
   .bar .lbl{ font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:700; color:#fff; padding:0 5px; white-space:nowrap; text-shadow:0 1px 1px rgba(0,0,0,.25); }
   .bar.b-risk .lbl, .bar.b-est .lbl{ color:var(--ink); text-shadow:none; }
   .gantt-note{ margin-top:8px; font-size:11px; color:var(--muted); display:flex; gap:14px; flex-wrap:wrap; }
@@ -237,25 +238,21 @@
         </div>
         <div class="gantt-row">
           <div class="gantt-name">ID2 <small>Sales Invoices</small></div>
-          <div class="bar b-risk" style="grid-column:2/17;"><span class="lbl">sin fecha — 11 casos en 0%</span></div>
+          <div class="bar b-late" style="grid-column:2/3;"><span class="lbl">venció 26/08</span></div>
         </div>
         <div class="gantt-row">
           <div class="gantt-name">ID5 <small>Vehicle Sales Orders</small></div>
-          <div class="bar b-risk" style="grid-column:2/17;"><span class="lbl">sin fecha — 12 casos en 0%</span></div>
-        </div>
-        <div class="gantt-row">
-          <div class="gantt-name">ID6/7 <small>Lead Capture/LMS-CRM</small></div>
-          <div class="bar b-risk" style="grid-column:2/17;"><span class="lbl">sin fecha — 28 casos en 0%</span></div>
+          <div class="bar b-progress" style="grid-column:7/11;"><span class="lbl">01/09 → 04/09</span></div>
         </div>
 
         <div class="gantt-note">
           <span><i style="background:var(--good)"></i>Cerrado</span>
           <span><i style="background:var(--warn)"></i>En curso, con fecha confirmada</span>
-          <span><i style="background:repeating-linear-gradient(135deg,var(--bad) 0 4px,var(--bad-soft) 4px 8px)"></i>Sin fecha — riesgo para el 10/09</span>
+          <span><i style="background:var(--bad)"></i>Venció sin avance</span>
         </div>
       </div>
     </div>
-    <p style="margin-top:8px; font-size:11.5px; color:var(--muted);">ID4 (VOR Order Tracking), ID12 (Recall Blocking) e ID9 (Service Booking) no tienen casos UAT registrados en el tracker todavía, por lo que no fue posible ubicarlos en este Gantt — quedan fuera de cualquier estimación de cierre.</p>
+    <p style="margin-top:8px; font-size:11.5px; color:var(--muted);">ID2 estaba planificado del 24 al 26/08 y sigue en 0/11 casos — su ventana ya venció. ID4 (VOR Order Tracking), ID6/7 (Lead Capture/LMS-CRM), ID9 (Service Booking) y ID12 (Recall Blocking) no tienen fecha ni casos UAT registrados en el tracker todavía, por lo que quedan fuera de este Gantt.</p>
   </section>
 
   <section class="block">
@@ -297,9 +294,9 @@
       <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID1</span> <span class="nm">Network Stock</span><span class="pend">0/50 finalizados, 25 en curso / 25 sin iniciar — vence martes 02/09.</span></div></div>
       <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID11</span> <span class="nm">Recalls</span><span class="pend">9/12 casos en curso, 3 sin iniciar — vence martes 02/09.</span></div></div>
       <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID10</span> <span class="nm">Vehicle Files / Service History</span><span class="pend">25 casos, todos sin iniciar — programado 01/09 → 10/09.</span></div></div>
-      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID6/7</span> <span class="nm">Lead Capture &amp; LMS/CRM</span><span class="pend">28 casos de ID7 sin iniciar; ID6 aún sin casos UAT registrados.</span></div></div>
-      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID2</span> <span class="nm">Network Sales Invoices</span><span class="pend">11 casos, todos sin iniciar — sin fecha de arranque.</span></div></div>
-      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID5</span> <span class="nm">Vehicle Sales Orders</span><span class="pend">12 casos, todos sin iniciar — sin fecha de arranque.</span></div></div>
+      <div class="chip"><span class="dot bad"></span><div class="txt"><span class="id">ID2</span> <span class="nm">Network Sales Invoices</span><span class="pend">Planificado 24-26/08 — venció sin avance, 11 casos siguen en 0%.</span></div></div>
+      <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID5</span> <span class="nm">Vehicle Sales Orders</span><span class="pend">12 casos, todos sin iniciar — programado 01/09 → 04/09.</span></div></div>
+      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID6/7</span> <span class="nm">Lead Capture &amp; LMS/CRM</span><span class="pend">28 casos de ID7 sin iniciar; ID6 aún sin casos UAT registrados. Sin fecha.</span></div></div>
       <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID4</span> <span class="nm">VOR Order Tracking</span><span class="pend">Sin casos UAT registrados en el tracker aún.</span></div></div>
       <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID12</span> <span class="nm">Recall Blocking</span><span class="pend">Sin casos UAT registrados en el tracker aún.</span></div></div>
       <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID9</span> <span class="nm">Service Booking</span><span class="pend">Sin casos UAT registrados en el tracker aún.</span></div></div>
@@ -318,8 +315,9 @@
       <div class="step"><div class="badge U">URGENTE</div><div class="step-body"><b>Resolver los 2 casos fallidos de ID8 (Pricing)</b> — ID8.2c, vencen mañana 28/08.</div></div>
       <div class="step"><div class="badge U">URGENTE</div><div class="step-body"><b>Cerrar el plan de recuperación de la brecha de 76 casos</b> — compromiso pedido por Inchcape para sostener el cierre del 10/09.</div></div>
       <div class="step"><div class="badge U">URGENTE</div><div class="step-body"><b>Preparar el arranque de ID10</b> — programado 01/09 → 10/09, 25 casos aún sin iniciar, sin margen dentro de su propia ventana.</div></div>
-      <div class="step"><div class="badge I">IMPORTANTE</div><div class="step-body"><b>Asegurar cierre de ID1 e ID11</b> el martes 02/09 — ambos con la mayoría de sus casos aún en curso.</div></div>
-      <div class="step"><div class="badge I">IMPORTANTE</div><div class="step-body"><b>Arrancar pruebas de ID2, ID5 y ID6/7</b> — 51 casos en 0% de avance y sin fecha de inicio, a menos de 2 semanas del cierre del 10/09.</div></div>
+      <div class="step"><div class="badge U">URGENTE</div><div class="step-body"><b>Replanificar ID2</b> — su ventana (24-26/08) ya venció con 0/11 casos avanzados; necesita nueva fecha antes del 10/09.</div></div>
+      <div class="step"><div class="badge I">IMPORTANTE</div><div class="step-body"><b>Asegurar cierre de ID1 e ID11</b> el martes 02/09, y de ID5 entre el 01/09 y el 04/09 — los tres con la mayoría de sus casos aún en curso o sin iniciar.</div></div>
+      <div class="step"><div class="badge I">IMPORTANTE</div><div class="step-body"><b>Definir fecha de arranque para ID6/7</b> — 28 casos en 0% de avance y aún sin ventana asignada, a menos de 2 semanas del cierre del 10/09.</div></div>
     </div>
   </section>
 
