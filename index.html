@@ -66,12 +66,20 @@
   .phase-row + .phase-row{ margin-top:8px; }
   .phase-label{ font-family:'Libre Franklin',sans-serif; font-weight:700; font-size:13px; min-width:210px; }
   .phase-label span{ display:block; font-family:'IBM Plex Mono',monospace; font-weight:500; font-size:10.5px; color:var(--muted); margin-top:1px; }
-  .track{ flex:1; min-width:160px; height:7px; border-radius:99px; background:var(--surface-2); position:relative; overflow:hidden; }
+  .track{ flex:1; min-width:160px; height:7px; border-radius:99px; background:var(--surface-2); position:relative; overflow:visible; margin:12px 0 6px; }
   .fill{ position:absolute; inset:0; width:43%; border-radius:99px; background:linear-gradient(90deg,var(--accent),var(--accent-ink)); }
-  .fill.cases{ background:linear-gradient(90deg,var(--good),var(--good-ink)); }
+  .fill.cases{ background:linear-gradient(90deg,var(--good),var(--good-ink)); z-index:2; }
+  .fill.cases.proj{ background:repeating-linear-gradient(135deg, var(--good) 0 5px, var(--good-soft) 5px 10px); opacity:.7; z-index:1; border-radius:99px; }
   .track .today{ position:absolute; left:43%; top:-3px; bottom:-3px; width:2px; background:var(--bad); }
+  .track .marker{ position:absolute; top:-3px; bottom:-3px; width:2px; z-index:3; }
+  .track .marker .tag{ position:absolute; top:-15px; left:50%; transform:translateX(-50%); font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:700; white-space:nowrap; }
+  .track .marker.today-m{ background:var(--accent-ink); }
+  .track .marker.today-m .tag{ color:var(--accent-ink); }
+  .track .marker.proj-m{ background:var(--good-ink); }
+  .track .marker.proj-m .tag{ color:var(--good-ink); top:8px; }
   .phase-pct{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:14px; color:var(--accent-ink); min-width:40px; text-align:right; }
   .phase-pct.cases{ color:var(--good-ink); }
+  .phase-note{ font-size:11px; color:var(--muted); margin-top:6px; }
 
   .stackbar{ display:flex; height:16px; border-radius:6px; overflow:hidden; margin:8px 0 6px; border:1px solid var(--border); }
   .stackbar div{ height:100%; }
@@ -179,9 +187,15 @@
     </div>
     <div class="phase-row">
       <div class="phase-label">Casos de prueba cerrados<span>49 de 190 casos totales</span></div>
-      <div class="track"><div class="fill cases" style="width:25.8%"></div></div>
+      <div class="track">
+        <div class="fill cases proj" style="width:59.5%"></div>
+        <div class="fill cases" style="width:25.8%"></div>
+        <div class="marker today-m" style="left:25.8%"><span class="tag">HOY</span></div>
+        <div class="marker proj-m" style="left:59.5%"><span class="tag">02/09</span></div>
+      </div>
       <div class="phase-pct cases">25.8%</div>
     </div>
+    <div class="phase-note">Rayado = proyección si ID1, ID8 e ID11 cierran según lo programado: <b style="color:var(--good-ink)">113/190 casos (59,5%)</b> hacia el 02/09.</div>
   </div>
 
   <div class="cards">
