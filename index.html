@@ -205,7 +205,7 @@
 
   <section class="block">
     <h2>Cierres programados — lo que queda hasta el 10/09</h2>
-    <p style="margin-bottom:8px;">Gantt armado a partir de los cierres confirmados: ID8 vence 28/08, ID1 e ID11 vencen 02/09, ID10 arranca 01/09 según planificación de Inchcape. Lo demás no tiene fecha en el tracker.</p>
+    <p style="margin-bottom:8px;">Gantt armado a partir de los cierres confirmados: ID8 vence 28/08, ID1 e ID11 vencen 02/09, ID10 programado 01/09 → 10/09. Lo demás no tiene fecha en el tracker.</p>
     <div class="gantt">
       <div class="gantt-inner">
         <div class="gantt-months"><span></span><span style="grid-column:2/7;">Agosto</span><span style="grid-column:7/17;">Septiembre</span></div>
@@ -233,7 +233,7 @@
         </div>
         <div class="gantt-row">
           <div class="gantt-name">ID10 <small>Service History</small></div>
-          <div class="bar b-est" style="grid-column:7/17;"><span class="lbl">inicia 01/09 → ¿10/09?</span></div>
+          <div class="bar b-progress" style="grid-column:7/17;"><span class="lbl">01/09 → 10/09</span></div>
         </div>
         <div class="gantt-row">
           <div class="gantt-name">ID2 <small>Sales Invoices</small></div>
@@ -251,7 +251,6 @@
         <div class="gantt-note">
           <span><i style="background:var(--good)"></i>Cerrado</span>
           <span><i style="background:var(--warn)"></i>En curso, con fecha confirmada</span>
-          <span><i style="background:repeating-linear-gradient(135deg,var(--warn) 0 4px,var(--warn-soft) 4px 8px)"></i>Fecha de cierre estimada</span>
           <span><i style="background:repeating-linear-gradient(135deg,var(--bad) 0 4px,var(--bad-soft) 4px 8px)"></i>Sin fecha — riesgo para el 10/09</span>
         </div>
       </div>
@@ -297,7 +296,7 @@
       <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID8</span> <span class="nm">Pricing</span><span class="pend">18/20 finalizados, <b style="color:var(--bad-ink)">2 fallidos</b> (ID8.2c) — vence mañana 28/08.</span></div></div>
       <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID1</span> <span class="nm">Network Stock</span><span class="pend">0/50 finalizados, 25 en curso / 25 sin iniciar — vence martes 02/09.</span></div></div>
       <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID11</span> <span class="nm">Recalls</span><span class="pend">9/12 casos en curso, 3 sin iniciar — vence martes 02/09.</span></div></div>
-      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID10</span> <span class="nm">Vehicle Files / Service History</span><span class="pend">25 casos, todos sin iniciar — arranca martes 01/09 según planificación Inchcape.</span></div></div>
+      <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID10</span> <span class="nm">Vehicle Files / Service History</span><span class="pend">25 casos, todos sin iniciar — programado 01/09 → 10/09.</span></div></div>
       <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID6/7</span> <span class="nm">Lead Capture &amp; LMS/CRM</span><span class="pend">28 casos de ID7 sin iniciar; ID6 aún sin casos UAT registrados.</span></div></div>
       <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID2</span> <span class="nm">Network Sales Invoices</span><span class="pend">11 casos, todos sin iniciar — sin fecha de arranque.</span></div></div>
       <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID5</span> <span class="nm">Vehicle Sales Orders</span><span class="pend">12 casos, todos sin iniciar — sin fecha de arranque.</span></div></div>
@@ -318,7 +317,7 @@
     <div class="steps">
       <div class="step"><div class="badge U">URGENTE</div><div class="step-body"><b>Resolver los 2 casos fallidos de ID8 (Pricing)</b> — ID8.2c, vencen mañana 28/08.</div></div>
       <div class="step"><div class="badge U">URGENTE</div><div class="step-body"><b>Cerrar el plan de recuperación de la brecha de 76 casos</b> — compromiso pedido por Inchcape para sostener el cierre del 10/09.</div></div>
-      <div class="step"><div class="badge U">URGENTE</div><div class="step-body"><b>Confirmar arranque de ID10</b> el martes 01/09, según planificación de Inchcape (25 casos sin iniciar).</div></div>
+      <div class="step"><div class="badge U">URGENTE</div><div class="step-body"><b>Preparar el arranque de ID10</b> — programado 01/09 → 10/09, 25 casos aún sin iniciar, sin margen dentro de su propia ventana.</div></div>
       <div class="step"><div class="badge I">IMPORTANTE</div><div class="step-body"><b>Asegurar cierre de ID1 e ID11</b> el martes 02/09 — ambos con la mayoría de sus casos aún en curso.</div></div>
       <div class="step"><div class="badge I">IMPORTANTE</div><div class="step-body"><b>Arrancar pruebas de ID2, ID5 y ID6/7</b> — 51 casos en 0% de avance y sin fecha de inicio, a menos de 2 semanas del cierre del 10/09.</div></div>
     </div>
