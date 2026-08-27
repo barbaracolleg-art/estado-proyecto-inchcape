@@ -105,6 +105,29 @@
   .legend span{ display:inline-flex; align-items:center; gap:5px; }
   .legend i{ width:7px; height:7px; border-radius:50%; display:inline-block; }
 
+  .gantt{ overflow-x:auto; border:1px solid var(--border); border-radius:8px; }
+  .gantt-inner{ min-width:800px; padding:2px 4px 6px; }
+  .gantt-months{ display:grid; grid-template-columns:150px repeat(15,1fr); gap:2px; margin-bottom:2px; }
+  .gantt-months span{ text-align:center; font-family:'IBM Plex Mono',monospace; font-size:9.5px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.03em; padding:2px 0; border-bottom:1px solid var(--border); }
+  .gantt-days{ display:grid; grid-template-columns:150px repeat(15,1fr); gap:2px; margin-bottom:6px; }
+  .gantt-days span{ text-align:center; font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); padding-bottom:3px; }
+  .gantt-days span.today{ color:var(--accent-ink); font-weight:700; }
+  .gantt-days span.limit{ color:var(--bad-ink); font-weight:700; }
+  .gantt-row{ display:grid; grid-template-columns:150px repeat(15,1fr); gap:2px; align-items:center; min-height:27px; }
+  .gantt-row:nth-child(odd){ background:var(--surface-2); border-radius:5px; }
+  .gantt-name{ font-size:11.5px; font-weight:600; color:var(--ink); padding-left:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .gantt-name small{ display:block; font-weight:400; color:var(--muted); font-size:10px; }
+  .bar{ grid-row:1; height:14px; border-radius:4px; position:relative; display:flex; align-items:center; }
+  .bar.b-done{ background:var(--good); }
+  .bar.b-progress{ background:var(--warn); }
+  .bar.b-risk{ background:repeating-linear-gradient(135deg, var(--bad) 0 6px, var(--bad-soft) 6px 12px); border:1px solid var(--bad); }
+  .bar.b-est{ background:repeating-linear-gradient(135deg, var(--warn) 0 6px, var(--warn-soft) 6px 12px); border:1px solid var(--warn); }
+  .bar .lbl{ font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:700; color:#fff; padding:0 5px; white-space:nowrap; text-shadow:0 1px 1px rgba(0,0,0,.25); }
+  .bar.b-risk .lbl, .bar.b-est .lbl{ color:var(--ink); text-shadow:none; }
+  .gantt-note{ margin-top:8px; font-size:11px; color:var(--muted); display:flex; gap:14px; flex-wrap:wrap; }
+  .gantt-note span{ display:inline-flex; align-items:center; gap:5px; }
+  .gantt-note i{ width:11px; height:8px; border-radius:2px; display:inline-block; }
+
   .road{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:4px; }
   .stage{ border-top:3px solid var(--pending); padding-top:9px; }
   .stage.now{ border-top-color:var(--warn); }
@@ -178,6 +201,62 @@
 
   <section class="block">
     <p><b>Situación:</b> el diseño está cerrado. El proyecto está en pruebas técnicas UAT desde el 3 de agosto; Inchcape fijó el 10 de septiembre como fecha de cierre de esta fase. Al 27/08 llevamos <b>49 de 190 casos finalizados (25,8%)</b>, con una brecha de <b>-76 casos</b> respecto al plan acumulado (125) — así lo confirmó Inchcape (Melanie Uesseler) en su correo del 27/08, donde piden un plan de recuperación para sostener la fecha del 10/09. Del alcance original (Master Data, LMS/CRM, Pricing, Stock, Vehicle Sales Order, Sales Invoice), Master Data (ID3) está prácticamente cerrado y Pricing (ID8) casi completo, pero Network Sales Invoices (ID2), Vehicle Sales Orders (ID5) y Lead Capture/LMS-CRM (ID6/7) siguen en 0% de avance. Además, 4 integraciones de posventa (Recalls, Recall Blocking, Service Booking, Vehicle Files) ya están activas en el tracker pese a que el alcance las ubicaba en una fase posterior — vale confirmar con Inchcape si es una ampliación acordada.</p>
+  </section>
+
+  <section class="block">
+    <h2>Cierres programados — lo que queda hasta el 10/09</h2>
+    <p style="margin-bottom:8px;">Gantt armado a partir de los cierres confirmados: ID8 vence 28/08, ID1 e ID11 vencen 02/09, ID10 arranca 01/09 según planificación de Inchcape. Lo demás no tiene fecha en el tracker.</p>
+    <div class="gantt">
+      <div class="gantt-inner">
+        <div class="gantt-months"><span></span><span style="grid-column:2/7;">Agosto</span><span style="grid-column:7/17;">Septiembre</span></div>
+        <div class="gantt-days">
+          <span></span>
+          <span class="today">27</span><span>28</span><span>29</span><span>30</span><span>31</span>
+          <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span class="limit">10</span>
+        </div>
+
+        <div class="gantt-row">
+          <div class="gantt-name">ID3 <small>Master Data</small></div>
+          <div class="bar b-done" style="grid-column:2/3;"><span class="lbl">OK</span></div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-name">ID8 <small>Pricing</small></div>
+          <div class="bar b-progress" style="grid-column:2/4;"><span class="lbl">28/08</span></div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-name">ID1 <small>Network Stock</small></div>
+          <div class="bar b-progress" style="grid-column:2/9;"><span class="lbl">02/09</span></div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-name">ID11 <small>Recalls</small></div>
+          <div class="bar b-progress" style="grid-column:2/9;"><span class="lbl">02/09</span></div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-name">ID10 <small>Service History</small></div>
+          <div class="bar b-est" style="grid-column:7/17;"><span class="lbl">inicia 01/09 → ¿10/09?</span></div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-name">ID2 <small>Sales Invoices</small></div>
+          <div class="bar b-risk" style="grid-column:2/17;"><span class="lbl">sin fecha — 11 casos en 0%</span></div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-name">ID5 <small>Vehicle Sales Orders</small></div>
+          <div class="bar b-risk" style="grid-column:2/17;"><span class="lbl">sin fecha — 12 casos en 0%</span></div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-name">ID6/7 <small>Lead Capture/LMS-CRM</small></div>
+          <div class="bar b-risk" style="grid-column:2/17;"><span class="lbl">sin fecha — 28 casos en 0%</span></div>
+        </div>
+
+        <div class="gantt-note">
+          <span><i style="background:var(--good)"></i>Cerrado</span>
+          <span><i style="background:var(--warn)"></i>En curso, con fecha confirmada</span>
+          <span><i style="background:repeating-linear-gradient(135deg,var(--warn) 0 4px,var(--warn-soft) 4px 8px)"></i>Fecha de cierre estimada</span>
+          <span><i style="background:repeating-linear-gradient(135deg,var(--bad) 0 4px,var(--bad-soft) 4px 8px)"></i>Sin fecha — riesgo para el 10/09</span>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:8px; font-size:11.5px; color:var(--muted);">ID4 (VOR Order Tracking), ID12 (Recall Blocking) e ID9 (Service Booking) no tienen casos UAT registrados en el tracker todavía, por lo que no fue posible ubicarlos en este Gantt — quedan fuera de cualquier estimación de cierre.</p>
   </section>
 
   <section class="block">
