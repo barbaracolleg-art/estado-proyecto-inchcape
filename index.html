@@ -155,6 +155,25 @@
   .callout{ margin-top:11px; background:var(--warn-soft); border:1px solid var(--warn); border-radius:8px; padding:9px 12px; font-size:12px; color:var(--warn-ink); }
   @media (max-width:640px){ .road{ grid-template-columns:1fr; } }
 
+  .tablewrap{ overflow-x:auto; border:1px solid var(--border); border-radius:8px; }
+  table.status{ border-collapse:collapse; width:100%; min-width:660px; font-size:12.5px; }
+  table.status thead th{ text-align:left; font-family:'Libre Franklin',sans-serif; font-weight:700; font-size:10.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--muted); background:var(--surface-2); padding:7px 10px; border-bottom:1px solid var(--border); white-space:nowrap; }
+  table.status tbody td{ padding:7px 10px; border-bottom:1px solid var(--border); color:var(--ink-soft); vertical-align:middle; }
+  table.status tbody tr:last-child td{ border-bottom:none; }
+  table.status tbody tr:hover{ background:var(--surface-2); }
+  .t-id{ font-family:'IBM Plex Mono',monospace; font-weight:600; color:var(--accent-ink); white-space:nowrap; }
+  .t-name{ color:var(--ink); font-weight:600; }
+  .t-name small{ display:block; font-weight:400; color:var(--muted); font-size:10.5px; }
+  .t-cases{ font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .t-pct{ font-family:'IBM Plex Mono',monospace; font-weight:600; color:var(--ink); }
+  .pill{ display:inline-flex; align-items:center; gap:5px; padding:2.5px 8px; border-radius:99px; font-size:10.5px; font-weight:600; white-space:nowrap; }
+  .pill::before{ content:''; width:6px; height:6px; border-radius:50%; flex:none; }
+  .pill.done{ background:var(--good-soft); color:var(--good-ink); } .pill.done::before{ background:var(--good); }
+  .pill.progress{ background:var(--warn-soft); color:var(--warn-ink); } .pill.progress::before{ background:var(--warn); }
+  .pill.pending{ background:var(--pending-soft); color:var(--pending-ink); } .pill.pending::before{ background:var(--pending); }
+  .pill.bad{ background:var(--bad-soft); color:var(--bad-ink); } .pill.bad::before{ background:var(--bad); }
+  .pill.unknown{ background:var(--surface-2); color:var(--muted); border:1px dashed var(--border); } .pill.unknown::before{ background:var(--muted); }
+
   .steps{ display:flex; flex-direction:column; gap:6px; }
   .step{ display:grid; grid-template-columns:78px 1fr; gap:10px; align-items:center; }
   .step .badge{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:700; text-align:center; padding:3px 0; border-radius:6px; }
@@ -305,18 +324,102 @@
 
   <section class="block">
     <h2>Qué falta por integración <span style="font-weight:400;color:var(--muted);font-size:11.5px;">— casos UAT reportados por Inchcape al 27/08</span></h2>
-    <div class="grid">
-      <div class="chip"><span class="dot done"></span><div class="txt"><span class="id">ID3</span> <span class="nm">Master Data → Network</span><span class="pend">31/32 casos finalizados — cerrado, según equipo (1 caso pendiente de cierre formal).</span></div></div>
-      <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID8</span> <span class="nm">Pricing</span><span class="pend">18/20 finalizados, <b style="color:var(--bad-ink)">2 fallidos</b> (ID8.2c) — vence mañana 28/08.</span></div></div>
-      <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID1</span> <span class="nm">Network Stock</span><span class="pend">0/50 finalizados, 25 en curso / 25 sin iniciar — vence martes 02/09.</span></div></div>
-      <div class="chip"><span class="dot progress"></span><div class="txt"><span class="id">ID11</span> <span class="nm">Recalls</span><span class="pend">9/12 casos en curso, 3 sin iniciar — vence martes 02/09.</span></div></div>
-      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID10</span> <span class="nm">Vehicle Files / Service History</span><span class="pend">25 casos, todos sin iniciar — programado 01/09 → 10/09.</span></div></div>
-      <div class="chip"><span class="dot bad"></span><div class="txt"><span class="id">ID2</span> <span class="nm">Network Sales Invoices</span><span class="pend">Planificado 24-26/08 — venció sin avance, 11 casos siguen en 0%.</span></div></div>
-      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID5</span> <span class="nm">Vehicle Sales Orders</span><span class="pend">12 casos, todos sin iniciar — programado 01/09 → 04/09.</span></div></div>
-      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID6/7</span> <span class="nm">Lead Capture &amp; LMS/CRM</span><span class="pend">28 casos de ID7 sin iniciar; ID6 aún sin casos UAT registrados. Sin fecha.</span></div></div>
-      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID4</span> <span class="nm">VOR Order Tracking</span><span class="pend">Sin casos UAT registrados en el tracker aún.</span></div></div>
-      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID12</span> <span class="nm">Recall Blocking</span><span class="pend">Sin casos UAT registrados en el tracker aún.</span></div></div>
-      <div class="chip"><span class="dot pending"></span><div class="txt"><span class="id">ID9</span> <span class="nm">Service Booking</span><span class="pend">Sin casos UAT registrados en el tracker aún.</span></div></div>
+    <div class="tablewrap">
+      <table class="status">
+        <thead>
+          <tr><th>ID</th><th>Integración</th><th>Casos</th><th>% fin.</th><th>Estado</th><th>Fecha</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="t-id">ID2</td>
+            <td class="t-name">Network Sales Invoices</td>
+            <td class="t-cases">0/11</td>
+            <td class="t-pct">0%</td>
+            <td><span class="pill bad">Vencido</span></td>
+            <td>Planificado 24-26/08 — venció sin avance</td>
+          </tr>
+          <tr>
+            <td class="t-id">ID8</td>
+            <td class="t-name">Pricing</td>
+            <td class="t-cases">18/20</td>
+            <td class="t-pct">90%</td>
+            <td><span class="pill progress">En curso</span></td>
+            <td><b style="color:var(--bad-ink)">2 fallidos</b> (ID8.2c) — vence mañana 28/08</td>
+          </tr>
+          <tr>
+            <td class="t-id">ID1</td>
+            <td class="t-name">Network Stock</td>
+            <td class="t-cases">0/50 <small style="color:var(--muted)">(25 en curso)</small></td>
+            <td class="t-pct">0%</td>
+            <td><span class="pill progress">En curso</span></td>
+            <td>Vence martes 02/09</td>
+          </tr>
+          <tr>
+            <td class="t-id">ID11</td>
+            <td class="t-name">Recalls</td>
+            <td class="t-cases">0/12 <small style="color:var(--muted)">(9 en curso)</small></td>
+            <td class="t-pct">0%</td>
+            <td><span class="pill progress">En curso</span></td>
+            <td>Vence martes 02/09</td>
+          </tr>
+          <tr>
+            <td class="t-id">ID5</td>
+            <td class="t-name">Vehicle Sales Orders</td>
+            <td class="t-cases">0/12</td>
+            <td class="t-pct">0%</td>
+            <td><span class="pill pending">Programado, sin iniciar</span></td>
+            <td>01/09 → 04/09</td>
+          </tr>
+          <tr>
+            <td class="t-id">ID10</td>
+            <td class="t-name">Vehicle Files / Service History</td>
+            <td class="t-cases">0/25</td>
+            <td class="t-pct">0%</td>
+            <td><span class="pill pending">Programado, sin iniciar</span></td>
+            <td>01/09 → 10/09</td>
+          </tr>
+          <tr>
+            <td class="t-id">ID3</td>
+            <td class="t-name">Master Data → Network</td>
+            <td class="t-cases">31/32</td>
+            <td class="t-pct">97%</td>
+            <td><span class="pill done">Completado</span></td>
+            <td>Cerrado, según equipo (1 caso pendiente de cierre formal)</td>
+          </tr>
+          <tr>
+            <td class="t-id">ID6/7</td>
+            <td class="t-name">Lead Capture &amp; LMS/CRM<small>Solo hay casos de ID7 registrados</small></td>
+            <td class="t-cases">0/28</td>
+            <td class="t-pct">0%</td>
+            <td><span class="pill pending">Sin fecha</span></td>
+            <td>No asignada</td>
+          </tr>
+          <tr>
+            <td class="t-id">ID4</td>
+            <td class="t-name">VOR Order Tracking</td>
+            <td class="t-cases">—</td>
+            <td class="t-pct">—</td>
+            <td><span class="pill unknown">Sin registrar</span></td>
+            <td>Sin casos UAT en el tracker</td>
+          </tr>
+          <tr>
+            <td class="t-id">ID12</td>
+            <td class="t-name">Recall Blocking</td>
+            <td class="t-cases">—</td>
+            <td class="t-pct">—</td>
+            <td><span class="pill unknown">Sin registrar</span></td>
+            <td>Sin casos UAT en el tracker</td>
+          </tr>
+          <tr>
+            <td class="t-id">ID9</td>
+            <td class="t-name">Service Booking</td>
+            <td class="t-cases">—</td>
+            <td class="t-pct">—</td>
+            <td><span class="pill unknown">Sin registrar</span></td>
+            <td>Sin casos UAT en el tracker</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <div class="stackbar">
       <div class="done" style="width:25.8%"></div><div class="progress" style="width:18.4%"></div><div class="pending" style="width:54.7%"></div><div class="bad" style="width:1.1%"></div>
